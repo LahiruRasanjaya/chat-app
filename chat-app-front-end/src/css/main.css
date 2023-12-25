@@ -33,3 +33,17 @@
         transform: rotate(360deg);
     }
 }
+
+#loader {
+    position: fixed;
+    background-color: white;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loader-wrapper {
+    transform: scale(1.4);
+}
