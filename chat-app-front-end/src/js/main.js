@@ -1,6 +1,7 @@
-import { GoogleAuthProvider,onAuthStateChanged, signOut } from 'firebase/auth';
+import { GoogleAuthProvider,onAuthStateChanged,signInWithPopup, signOut } from 'firebase/auth';
 import { auth } from '../firebase.js';
 
+const provider = new GoogleAuthProvider();
 const accountElm = document.querySelector("#account");
 const userNameElm = document.querySelector("#user-name");
 const userEmailElm = document.querySelector("#user-email");
@@ -8,6 +9,9 @@ const btnSignOutElm = document.querySelector("#btn-sign-out");
 const loaderElm = document.querySelector("#loader");
 const loginOverlayElm = document.querySelector("#login-overlay");
 const outputElm = document.querySelector("#output");
+const btnSignInElm = document.querySelector("#btn-sign-in");
+const btnSendElm = document.querySelector("#btn-send");
+const txtMessageElm = document.querySelector("#txt-message");
 const { API_BASE_URL } = process.env;
 const user = {
     email: null,
@@ -59,6 +63,16 @@ onAuthStateChanged(auth, (loggedUser) => {
         }
     }
 });
+btnSignInElm.addEventListener('click', () => {
+    signInWithPopup(auth, provider)
+        .then(res => {
+            user.name = res.user.displayName;
+            user.email = res.user.email;
+            user.picture = res.user.photoURL;
+            loginOverlayElm.classList.add('d-none');
+            finalizeLogin();
+        }).catch(err => alert("Failed to sign in"));
+});
 function addChatMessageRecord({message, email}) {
     const messageElm = document.createElement('div');
     messageElm.classList.add('message')
@@ -70,6 +84,22 @@ function addChatMessageRecord({message, email}) {
     outputElm.append(messageElm);
     messageElm.innerText = message;
 }
+btnSendElm.addEventListener('click', () => {
+    const message = txtMessageElm.value.trim();
+    if (!message) return;
+
+    const msgObj = {
+        message,
+        email: user.email
+    };
+
+    ws.send(JSON.stringify(msgObj));
+    addChatMessageRecord(msgObj);
+    outputElm.scrollTo(0, outputElm.scrollHeight);
+    txtMessageElm.value = '';
+    txtMessageElm.focus();
+});
+
 function finalizeLogin(){
     userNameElm.innerText = user.name;
     userEmailElm.innerText = user.email;

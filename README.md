@@ -1,4 +1,10 @@
-🚀 **Real-time Chat Application**
+🚀 **EduPanel**
+
+0.1.0
+
+Copyright © 2024 Lahiru Rasanjaya
+
+This project is licensed under this MIT License
 
 **Front End:**
 - Bundled with Parcel for streamlined asset management.
@@ -17,10 +23,5 @@
 **Technologies:**
 - Front End: HTML, CSS, JavaScript, Parcel, Firebase Authentication.
 - Back End: Spring Framework (WebSockets).
-
-**Collaboration:**
-- Open to contributions and collaboration! Feel free to join and enhance this real-time chat application.
-
-🌐 **Explore Live Demo:** [Demo Link]
 
 #webdevelopment #realtimechat #javascript #springframework #firebase
